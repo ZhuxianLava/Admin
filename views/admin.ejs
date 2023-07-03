@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet"  href="/css/admin.css">
+    
+    <title>Đăng nhập</title>
+    <link href=
+    "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+            rel="stylesheet">
+        <script src=
+    "https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js">
+        </script>
+        <script src=
+    "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">
+        </script>
+     
+        <!-- Include Moment.js CDN -->
+        <script type="text/javascript" src=
+    "https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js">
+        </script>
+     
+        <!-- Include Bootstrap DateTimePicker CDN -->
+        <link
+            href=
+    "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css"
+            rel="stylesheet">
+     
+        <script src=
+    "https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js">
+            </script>
+
+
+</head>
+  <body>
+    <div class="header">
+      <div class="menu">
+        <a href="/admin">Trang chủ</a>
+        <a href="/danh-sach-chuong-trinh-tour">Quản lý chương trình tour</a>
+        <a href="/danh-sach-dat-tour">Quản lý đặt tour</a>
+        <a href="/danh-sach-khach-hang">Quản lý khách hàng</a>
+        <a href="/danh-sach-diem-du-lich">Quản lý điểm du lịch</a>
+        <a href="/danh-sach-loai-tour">Quản lý loại tour</a>
+            
+    <% if (access === 'admin') { %>
+      <button>Thêm</button>
+      <button>Sửa</button>
+      <button>Xem</button>
+    <% } else if (access === 'employee') { %>
+      <button>Xem</button>
+    <% } %>
+  </div>
+      </div>
+    </div>
+  </body>
+</html>

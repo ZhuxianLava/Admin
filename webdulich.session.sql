@@ -1,0 +1,1 @@
+SELECT * FROM login WHERE username = 'admin' AND password = 'admin'

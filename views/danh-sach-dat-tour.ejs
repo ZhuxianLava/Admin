@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet"  href="/css/admin.css">
+    
+    <title>Đăng nhập</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js">  </script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js">  </script>
+ 
+    <!-- Include Moment.js CDN -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"> </script>
+    <!-- Include Bootstrap DateTimePicker CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+ 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.37/js/bootstrap-datetimepicker.min.js"></script>
+
+
+</head>
+  <body>
+    <div class="header">
+      <div class="menu">
+        <a href="/admin">Trang chủ</a>
+        <a href="/danh-sach-chuong-trinh-tour">Quản lý chương trình tour</a>
+        <a href="/danh-sach-dat-tour">Quản lý đặt tour</a>
+        <a href="/danh-sach-khach-hang">Quản lý khách hàng</a>
+        <a href="/danh-sach-diem-du-lich">Quản lý điểm du lịch</a>
+        <a href="/danh-sach-loai-tour">Quản lý loại tour</a>
+       </div>
+      </div>
+      <h1 class="title">Danh sách chương trình tour</h1>
+      <button onclick="showAddPopup()">Thêm chương trình tour</button>
+      <table class="table " border="1" cellpadding="0" cellspacing="0" align-text="center">
+        <tr>
+          <th>Mã tour</th>
+          <th>Tên tour</th>
+          <th>Giá</th>
+          <th>Đơn vị tính</th>
+          <th>Ngày khởi hành</th>
+          <th>Ngày kết thúc</th>
+          <th>Số ngày</th>
+          <th>Số đêm</th>
+          <th>Số chỗ</th>
+          <th>Nội dung</th>
+          <th>Hình ảnh(URL)</th>
+          <th>Mã loại tour</th>
+          <th>Số chỗ đã đặt</th>
+          <th>Ghi chú</th>
+          <th>Thao tác</th>
+          
+          <!-- Các cột khác của bảng -->
+        </tr>
+        <% danhSachChuongTrinhTour.forEach(tour => { %>
+          <tr>
+            <td><%= tour.ma_tour %></td>
+            <td><%= tour.ten_tour %></td>
+            <td><%= tour.gia %></td>
+            <td><%= tour.donvitinh %></td>
+            <td><%= tour.ngay_khoihanh %></td>
+            <td><%= tour.ngay_ketthuc %></td>
+            <td><%= tour.so_ngay %></td>
+            <td><%= tour.so_dem %></td>
+            <td><%= tour.so_cho %></td>
+            <td><%= tour.noidung %></td>
+            <td><%= tour.hinhanh %></td>
+            <td><%= tour.ma_loaitour %></td>
+            <td><%= tour.socho_dadat %></td>
+            <td><%= tour.ghichu %></td>
+            <td>
+             
+              <button onclick="showUpdatePopup('update-popup-<%=tour.ma_tour%>')">Sửa</button>
+              <form method="POST" action="/xoa-chuong-trinh-tour">
+                <input type="hidden" name="ma_tour" value="<%= tour.ma_tour %>">
+                <button class="delete-button" onclick="confirmDelete('<%= tour.ma_tour %>')">Xóa</button>
+              </form>
+
+          </tr>
+
+          <div id="update-popup-<%=tour.ma_tour%>" class="popup">
+            <div class="popup-content">
+              <h3 class="title">Sửa chương trình tour</h3>
+              <form id="update-form" action="/sua-chuong-trinh-tour" method="POST">
+                <!-- Định nghĩa các trường dữ liệu cho form thêm -->
+                
+                <label for="fname">Mã Tour:</label> 
+                    <input type="text" id= "myElement" name="ma_tour" value="<%= tour.ma_tour %>" placeholder="Mã tour" required><br>
+                <label for="fname">Tên Tour:</label>
+                    <input type="text" name="ten_tour" value="<%= tour.ten_tour %>" placeholder="Tên tour" required><br>
+                <label for="fname">Giá :</label>
+                    <input type="text" name="gia" value="<%= tour.gia %>" placeholder="Giá" required><br>
+               <label for="fname">Đơn Vị Tính :</label>
+                    <input type="text" name="donvitinh" value="<%= tour.donvitinh %>" placeholder="Đơn vị tính" required><br>
+                <label for="fname">Ngày Khởi Hành</label>
+                    <input type="text" name="ngay_khoihanh"  id = "datetime1" value="<%= tour.ngay_khoihanh %>" placeholder="Ngày khởi hành" required><br>
+                <label for="fname">Ngày Kết Thúc:</label>
+                    <input type="text" name="ngay_ketthuc" id = "datetime2" value="<%= tour.ngay_ketthuc %>" placeholder="Ngày kết thúc" required><br>
+                <label for="fname">Số Ngày:</label>
+                    <input type="text" name="so_ngay"  value="<%= tour.so_ngay %>" placeholder="Số ngày" required><br>
+                <label for="fname">Số Đêm:</label>
+                    <input type="text" name="so_dem" value="<%= tour.so_dem %>"  placeholder="Số đêm" required><br>
+                <label for="fname">Số Chỗ:</label>
+                    <input type="text" name="so_cho" value="<%= tour.so_cho %>" placeholder="Số chỗ" required><br>
+                <label for="fname">Nội dung:</label>
+                    <input type="text" name="noidung" value="<%= tour.noidung %>" placeholder="Nội dung" required><br>
+                <label for="fname">Hình ảnh:</label>
+                    <input type="text" name="hinhanh"  value="<%= tour.hinhanh %>" placeholder="Hình ảnh" required><br>
+                <label for="fname">Mã Loại Tour</label>
+                <select name="ma_loaitour" id="ma_loaitour">        
+                  <%danhSachLoaiTour.map((item)=>{ %>
+                    <option><%=item.ma_loaitour%></option>
+                    
+                 <% }) %>
+                 <option selected disabled hidden><%= tour.ma_loaitour %></option>
+                </select><br>
+                <label for="fname">Số chỗ đã đặt</label>
+                    <input type="text" name="socho_dadat" value="<%= tour.socho_dadat %>" placeholder="Số chỗ đã đặt" required><br>
+                <label for="fname">Ghi Chú</label>
+                    <input type="text" name="ghichu" value="<%= tour.ghichu %>" placeholder="Ghi chú" required><br>
+          
+                <button type="submit">Sửa</button>
+                <button type="button" onclick="hideUpdatePopup('update-popup-<%=tour.ma_tour%>')">Hủy</button>
+              </form>
+            </div>
+          </div>
+
+        <% }); %>
+      </table>
+
+      <!-- Form thêm -->
+      <div id="add-popup" class="popup">
+        <div class="popup-content">
+          <h3 class="title">Thêm chương trình tour</h3>
+          <form id="add-form" action="/them-chuong-trinh-tour" method="POST">
+            <!-- Định nghĩa các trường dữ liệu cho form thêm -->
+            <label for="fname">Mã Tour:</label> 
+                <input type="text" name="ma_tour" placeholder="Mã tour" readonly ><br>
+            <label for="fname">Tên Tour:</label>
+                <input type="text" name="ten_tour" placeholder="Tên tour" required><br>
+            <label for="fname">Giá :</label>
+                <input type="text" name="gia" placeholder="Giá" required><br>
+           <label for="fname">Đơn Vị Tính :</label>
+                <input type="text" name="donvitinh" placeholder="Đơn vị tính" required><br>
+            <label for="fname">Ngày Khởi Hành</label>
+                <input type="text" name="ngay_khoihanh"  id = "datetime1" placeholder="Ngày khởi hành" required><br>
+            <label for="fname">Ngày Kết Thúc:</label>
+                <input type="text" name="ngay_ketthuc" id = "datetime2" placeholder="Ngày kết thúc" required><br>
+            <label for="fname">Số Ngày:</label>
+                <input type="text" name="so_ngay"  placeholder="Số ngày" required><br>
+            <label for="fname">Số Đêm:</label>
+                <input type="text" name="so_dem" placeholder="Số đêm" required><br>
+            <label for="fname">Số Chỗ:</label>
+                <input type="text" name="so_cho" placeholder="Số chỗ" required><br>
+            <label for="fname">Nội dung:</label>
+                <input type="text" name="noidung" placeholder="Nội dung" required><br>
+            <label for="fname">Hình ảnh:</label>
+                <input type="text" name="hinhanh" placeholder="Hình ảnh" required><br>
+            <label for="fname">Mã Loại Tour</label>
+            <select name="ma_loaitour" id="ma_loaitour">
+              
+              <%danhSachLoaiTour.map((item)=>{ %>
+                <option><%=item.ma_loaitour%></option>
+             <% }) %>
+            </select>
+            <label for="fname">Số chỗ đã đặt</label>
+                <input type="text" name="socho_dadat" placeholder="Số chỗ đã đặt" required><br>
+            <label for="fname">Ghi Chú</label>
+                <input type="text" name="ghichu" placeholder="Ghi chú" required><br>
+            
+            <button type="submit" >Thêm</button>
+            <button type="button" onclick="hideAddPopup()">Hủy</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Form sửa -->
+      
+
+  </body>
+  <script>
+    // Hiển thị popup thêm chương trình tour
+    function showAddPopup() {
+      var popup = document.getElementById('add-popup');
+      popup.style.display = 'block';
+    }
+   // Hiển thị popup sửa chương trình tour
+    function showUpdatePopup(popupId) {
+      var popup = document.getElementById(popupId);
+      if (popup) {
+        popup.style.display = 'block';
+      }
+    }
+    
+    // Ẩn popup
+    function hideAddPopup() {
+      var popup = document.getElementById('add-popup');
+      popup.style.display = 'none';
+    }
+
+    function hideUpdatePopup(popupId) {
+      var popup = document.getElementById(popupId);
+      if (popup) {
+        popup.style.display = 'none';
+      }
+      
+    }
+    
+      
+    // Script xác nhận xóa 
+    function confirmDelete(maTour) {       
+    var confirmMessage = "Bạn có chắc chắn muốn xóa Tour: " + maTour + "?";
+    var shouldDelete = confirm(confirmMessage);
+    if (shouldDelete) {
+      // Gửi yêu cầu xóa tour đến server
+      fetch('/xoa-chuong-trinh-tour', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ma_tour: maTour })
+      })
+      .then(response => {
+        if (response.ok) {
+          // Tour đã được xóa thành công
+          // Thực hiện các hành động cần thiết sau khi xóa tour
+          window.location.reload(); // Tải lại trang sau khi xóa
+        } else {
+          // Xử lý khi xóa tour không thành công
+          // ...
+        }
+      })
+      .catch(error => {
+        // Xử lý khi xảy ra lỗi trong quá trình xóa tour
+        // ...
+      });
+    }
+    else {
+      // Ngăn chặn hành động mặc định của form
+      event.preventDefault();
+    }
+    }
+
+     // datetime
+     $('#datetime1').datetimepicker({
+      format: 'DD-MM-YYYY'
+     });
+     $('#datetime2').datetimepicker({
+      format: 'DD-MM-YYYY'
+     });
+  </script>
+</html>
